@@ -13,7 +13,7 @@ This guide provides detailed instructions for setting up Hyprland on Arch Linux 
 Run the following command to install Hyprland, a Wayland compositor, along with other essential packages:
 
 ```bash
-sudo pacman -S hyprland alacritty nemo wofi polkit hyprpaper waybar sddm git nvim pulseaudio qt6 zsh alsa-utils
+sudo pacman -S hyprland alacritty nemo wofi polkit hyprpaper waybar sddm git nvim pulseaudio qt6 zsh alsa-utils wl-clipboard grim slurp arc-gtk-theme materia-gtk-theme nwg-look
 ```
 
 ### Package Overview:
@@ -84,7 +84,7 @@ cursor {
 Use Yay to install additional packages like 7-zip:
 
 ```bash
-yay -S 7-zip ttf-jetbrains-mono-nerd
+yay -S 7-zip ttf-jetbrains-mono-nerd visual-studio-code-bin discord
 ```
 
 ## Step 5: Set Up SDDM
