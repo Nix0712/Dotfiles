@@ -1,0 +1,17 @@
+import = ["~/.config/alacritty/theme.toml"]
+
+[cursor.style]
+shape = "Beam"
+
+[env]
+TERM = "xterm-256color"
+
+[font]
+size = 13
+
+[font.normal]
+family = "JetBrains Mono Nerd Font"
+style = "semibold"
+
+[window]
+opacity = 0.75
