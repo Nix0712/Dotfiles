@@ -1,0 +1,112 @@
+{
+  // Basics
+  "layer": "bottom",
+	"position": "top",
+  "margin-top": 5,
+	"margin-right": 5,
+	"margin-left": 5,
+
+  // Modules
+  "modules-left": [
+    "cpu",
+    "temperature",
+    "memory",
+    "disk#one"
+  ],
+  "modules-center": [
+    "hyprland/workspaces",
+  ],
+  "modules-right": [
+    "pulseaudio",
+    "network",
+    "clock"
+  ],
+
+  // Module Config
+  "clock": {
+    "format": "{:%a %d %b %H:%M}"
+  },
+  "cpu": {
+    "states": {
+      "good": 0,
+      "warning": 70,	
+      "critical": 90
+    },
+    "interval": 1,
+    "format": " {usage:2}%",
+    "on-click": "foot -e btop"
+  },
+  "temperature": {
+    "thermal-zone": 3,
+    "interval": 1,
+    "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
+    "critical-threshold": 80,
+    "format-critical": "({temperatureC}°C)",
+    "format": "({temperatureC}°C)"
+  },
+  "memory": {
+    "states": {
+      "good": 0,
+      "warning": 70,
+      "critical": 85
+    },
+    "interval": 5,
+    "format": "  {}%",
+    "on-click": "foot -e btop"
+  },
+  "disk#one": {
+		"states": {
+			"good": 0,
+			"warning": 70,
+			"critical": 95
+		},
+		"interval": 5,
+		"format": "  {percentage_used:2}%",
+		"path": "/"
+	},
+
+  "hyprland/workspaces": {
+      "format": "{icon}",
+	"format-icons": {
+		"1": "   ",
+		"2": "   ",
+		"3": "   ",
+		"9": "   ",
+		"4": "   ",
+    "10": "   "
+	},  
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%    {format_source}",
+    "format-bluetooth": "{icon} {volume}%  {format_source}",
+    "format-bluetooth-muted": "  {icon}  {format_source}",
+    "format-muted": "  {format_source}",
+    "format-source": "  {volume}%",
+    "format-source-muted": " ",
+    "format-icons": {
+      "headphone": "󰋋 ",
+      "hands-free": " ",
+      "headset": "󰋎 ",
+      "phone": " ",
+      "portable": " ",
+      "car": " ",
+      "default": [
+        "󰕿 ",
+        "󰖀 ",
+        "󰕾 "
+      ]
+    },
+    "on-click": "pavucontrol"
+  },
+  "network": {
+    "format-wifi": "  {essid} ({signalStrength}%)",
+    "format-ethernet": "   {ifname} {ipaddr}",
+    "format-disconnected": "Disconnected",
+    "tooltip-format": "{ifname}",
+    "tooltip-format-wifi": "{ipaddr}",
+    "tooltip-format-ethernet": "{ipaddr}",
+    "tooltip-format-disconnected": "Disconnected",
+    "interval": 30
+  },
+
+}
