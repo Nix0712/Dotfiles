@@ -5,10 +5,10 @@
   "margin-top": 5,
 	"margin-right": 5,
 	"margin-left": 5,
+  "height": 36,  // Add this line
 
   // Modules
   "modules-left": [
-    "clock",
     "cpu",
     "temperature",
     "memory",
@@ -16,14 +16,13 @@
   ],
   "modules-center": [
     "hyprland/workspaces",
-    "sway/mode"
   ],
   "modules-right": [
-    "backlight",
     "pulseaudio",
     "network",
+    "backlight",
     "battery",
-    "custom/powermenu"
+    "clock"
   ],
 
   // Module Config
@@ -37,7 +36,7 @@
       "critical": 90
     },
     "interval": 1,
-    "format": "{usage:2}%",
+    "format": " {usage:2}%",
     "on-click": "foot -e btop"
   },
   "temperature": {
@@ -70,31 +69,18 @@
 	},
 
   "hyprland/workspaces": {
-    "disable-scroll": true,
-    "format": "{name}",
-      "format-icons": {
-        "urgent": "",
-        "focused": "",
-        "default": ""
-      }
-  },
-
-  "tray": {
-    "icon-size": 16,
-    "spacing": 8
-  },
-  "backlight": {
-    "format": "{icon} {percent}%",
-    "format-icons": [
-      "󰃜",
-      "󰃛",
-      "󰃚"
-    ],
-    "on-scroll-up": "brightnessctl set +5%",
-    "on-scroll-down": "brightnessctl set 5%-"
+      "format": "{icon}",
+	"format-icons": {
+		"1": "   ",
+		"2": "   ",
+		"3": "   ",
+		"9": "   ",
+		"4": "   ",
+    "10": "   "
+	},  
   },
   "pulseaudio": {
-    "format": "{icon} {volume}% {format_source}",
+    "format": "{icon} {volume}%    {format_source}",
     "format-bluetooth": "{icon} {volume}%  {format_source}",
     "format-bluetooth-muted": "  {icon}  {format_source}",
     "format-muted": "  {format_source}",
@@ -131,7 +117,7 @@
       "warning": 30,
       "critical": 15
     },
-    "format": "{icon} {capacity}%",
+    "format": "{icon}  {capacity}%",
     "format-icons": [
       " ",
       " ",
@@ -140,9 +126,16 @@
       " "
     ]
   },
-  "custom/powermenu": {
-    "format": " ",
-    "on-click": "nwg-bar",
-    "tooltip": false
-  }
+   "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": [
+      "󰃜",
+      "󰃛",
+      "󰃚"
+    ],
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-"
+  },
+  
+
 }
