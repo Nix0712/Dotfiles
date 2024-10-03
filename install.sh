@@ -29,6 +29,7 @@ install_processor_drivers(){
       "3")
         echo -e "${YELLOW}Skiping processor driver installation...${RC}"
         break
+        ;;
       *)
         echo -e "${RED}Unknown input, please select valid option${RC}"
         ;;
@@ -47,15 +48,15 @@ configure_nvidia(){
   sudo sed -i '/^MODULES=/ s/(\(.*\))/(\1 nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
   echo "options nvidia_drm modeset=1 fbdev=1" | sudo tee /etc/modprobe.d/nvidia.conf
   sudo mkinitcpio -P
-  cat <<EOL >> ~/.config/hypr/hyprland.conf
-  env = LIBVA_DRIVER_NAME,nvidia
-  env = GBM_BACKEND,nvidia-drm
-  env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+  cat << EOL >> ~/.config/hypr/hyprland.conf
+env = LIBVA_DRIVER_NAME,nvidia
+env = GBM_BACKEND,nvidia-drm
+env = __GLX_VENDOR_LIBRARY_NAME,nvidia
 
-  cursor {
-      no_hardware_cursors = true
-  }
-  EOL
+cursor {
+    no_hardware_cursors = true
+}
+EOL
 }
 
 install_nvidia_drivers(){
@@ -81,8 +82,12 @@ create_soft_links(){
   fi   
 }
 
+enable_sevices(){
+  sudo systemctl enable sddm
+}
+
+
 default_installation(){
-  cd ~
   packages=''
   #Getting all packages from installation_pkgs.txt
   #This is done for the practice purposes
@@ -91,7 +96,8 @@ default_installation(){
   done < installation_pkgs.txt
   echo $packages 
 
-  if ! command -v yay 2>&1 >/dev/null; then
+  if ! command -v yay 2>&1 >/dev/null
+  then
     echo "Installing yay..."
     git clone https://aur.archlinux.org/yay.git
     cd yay
@@ -104,6 +110,7 @@ default_installation(){
   create_soft_links
   install_processor_drivers
   install_nvidia_drivers
+  enable_sevices
 }
 
 echo "${GREEN}Welcome to configuration installer!${RC}"
