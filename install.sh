@@ -53,9 +53,8 @@ default_installation() {
 # }
 
 install_nvidia_drivers() {
-  nvidia_present="n"
-
   echo -n "Do you have Nvidia graphics card? ${CYAN}[y/N]${RC}"
+  nvidia_present="n"
 
   if [ "$nvidia_present" = "y" ]; then
     echo -e "Installing Nvidia driver..."
@@ -117,19 +116,21 @@ create_soft_links() {
     stow . --adopt
     echo -e "${GREEN}All file are linked and ready!${RC}"
   else
-    echo -e "${RED}LINKING FAILE!${RC}"
+    echo -e "${RED}LINKING FAILED!${RC}"
   fi
 }
 
 # Enable sddm
 enable_services() {
+
+  echo -e "${YELLOW}Enabling sddm ${RC}"
   sudo systemctl enable sddm
   sudo systemctl start sddm
 }
 
-echo "${GREEN}Welcome to configuration installer!${RC}"
-echo "${YELLOW}Choose one of the option to install${RC}"
-echo -e "${CYAN}[1]${RC} Install configuration(Nvidia)"
+echo -e "${GREEN}Welcome to configuration installer!${RC}"
+echo -e "${YELLOW}Choose one of the option to install${RC}"
+echo -e "${CYAN}[1]${RC} Install configuration"
 echo -e "${CYAN}[q]${RC} Abort the installation"
 
 while true; do
