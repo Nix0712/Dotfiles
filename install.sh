@@ -100,6 +100,7 @@ default_installation(){
   if ! command -v yay 2>&1 >/dev/null
   then
     echo "Installing yay..."
+    sudo pacman -S base-devel
     git clone https://aur.archlinux.org/yay.git
     cd yay
     makepkg -si
