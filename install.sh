@@ -76,6 +76,7 @@ create_soft_links(){
   if command -v stow 2>&1 >/dev/null; then
     echo -e "${CYAN}Linking files...${RC}"
     stow . --adopt
+    sudo cp -r .config/sddm/clairvoyance /usr/shere/sddm/themes
     echo -e "${GREEN}All file are linked and ready!${RC}"
   else
     echo -e "${RED}LINKING FAILE!${RC}"
