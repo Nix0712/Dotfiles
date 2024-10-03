@@ -31,3 +31,4 @@ slurp
 pipewire
 wireplumber
 btop
+stow
