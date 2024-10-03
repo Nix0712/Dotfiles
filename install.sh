@@ -21,6 +21,52 @@ install_yay() {
   fi
 }
 
+default_installation() {
+  install_yay
+
+  # Check for packages file and install all packages
+  if [[ -f pacakages ]]; then
+    echo "${GREEN} Installing packages${RC}"
+    yay -S - <packages
+  else
+    echo "${RED} Packages file not found${RC}"
+  fi
+
+  install_nvidia_drivers
+  install_processor_drivers
+  create_soft_links
+  enable_services
+}
+
+### Obsolete
+### OVO TI NE TREBA
+# instaliranje mikro koda trigeruje intiramfs i mkinitcpio
+# configure_nvidia() {
+#   echo "Setting up nvidia dirvers"
+#   if ! command -v mkinitcpio &>/dev/null; then
+#     echo -e "${CYAN}installing mkinitcpio...${RC}"
+#     yay -s mkinitcpio
+#     echo -e "${GREEN}mkinitcpio installed!${RC}"
+#   fi
+#
+#   sudo mkinitcpio -P
+# }
+
+install_nvidia_drivers() {
+  nvidia_present="n"
+
+  echo -n "Do you have Nvidia graphics card? ${CYAN}[y/N]${RC}"
+
+  if [ "$nvidia_present" = "y" ]; then
+    echo -e "Installing Nvidia driver..."
+    yay -S nvidia nvidia-utils nvidia-settings
+    hyprland_nvidia_support
+    echo -e "${GREEN}Nvidia drivers installed${RC}"
+  else
+    echo -e "${GREEN}Skipping Nvidia installation${RC}"
+  fi
+}
+
 hyprland_nvidia_support() {
   # Modify hyprland.conf
   {
@@ -32,11 +78,6 @@ hyprland_nvidia_support() {
   # Enable nvidia in kernel
   sudo sed -i '/^MODULES=/ s/(\(.*\))/(\1 nvidia nvidia_modeset nvidia_uvm nvidia_drm)/' /etc/mkinitcpio.conf
   echo "options nvidia_drm modeset=1 fbdev=1" | sudo tee /etc/modprobe.d/nvidia.conf
-}
-
-enable_services() {
-  sudo systemctl enable sddm
-  sudo systemctl start sddm
 }
 
 install_processor_drivers() {
@@ -70,32 +111,6 @@ install_processor_drivers() {
   echo -e "${GREEN}Processor dirvers installation finished!${RC}"
 }
 
-configure_nvidia() {
-  echo "Setting up nvidia dirvers"
-  if ! command -v mkinitcpio &>/dev/null; then
-    echo -e "${CYAN}installing mkinitcpio...${RC}"
-    yay -s mkinitcpio
-    echo -e "${GREEN}mkinitcpio installed!${RC}"
-  fi
-
-  sudo mkinitcpio -P
-}
-
-install_nvidia_drivers() {
-  nvidia_present="n"
-
-  echo -n "Do you have Nvidia graphics card? ${CYAN}[y/N]${RC}"
-
-  if [ "$nvidia_present" = "y" ]; then
-    echo -e "Installing Nvidia driver..."
-    yay -S nvidia nvidia-utils nvidia-settings
-    configure_nvidia
-    echo -e "${GREEN}Nvidia drivers installed${RC}"
-  else
-    echo -e "${GREEN}Skipping Nvidia installation${RC}"
-  fi
-}
-
 create_soft_links() {
   if command -v stow &>/dev/null; then
     echo -e "${CYAN}Linking files...${RC}"
@@ -106,21 +121,10 @@ create_soft_links() {
   fi
 }
 
-default_installation() {
-  install_yay
-
-  # Check for packages file and install all packages
-  if [[ -f pacakages ]]; then
-    echo "${GREEN} Installing packages${RC}"
-    yay -S - <packages
-  else
-    echo "${RED} Packages file not found${RC}"
-  fi
-
-  install_processor_drivers
-  install_nvidia_drivers
-  create_soft_links
-  enable_services
+# Enable sddm
+enable_services() {
+  sudo systemctl enable sddm
+  sudo systemctl start sddm
 }
 
 echo "${GREEN}Welcome to configuration installer!${RC}"
@@ -135,7 +139,7 @@ while true; do
   "1")
     echo -e "${GREEN}Starting default installation...${RC}"
     default_installation
-    reboot
+    sudo reboot
     break
     ;;
   "q")
