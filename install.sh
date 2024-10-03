@@ -34,6 +34,11 @@ hyprland_nvidia_support() {
   echo "options nvidia_drm modeset=1 fbdev=1" | sudo tee /etc/modprobe.d/nvidia.conf
 }
 
+enable_services() {
+  sudo systemctl enable sddm
+  sudo systemctl start sddm
+}
+
 install_processor_drivers() {
   echo "Choose type of processor you are using: "
   echo -e "${CYAN}[1]${RC} AMD porcessor"
@@ -115,6 +120,7 @@ default_installation() {
   install_processor_drivers
   install_nvidia_drivers
   create_soft_links
+  enable_services
 }
 
 echo "${GREEN}Welcome to configuration installer!${RC}"
