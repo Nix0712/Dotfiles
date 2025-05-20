@@ -95,7 +95,7 @@ Move config files from sddm folder (we are in dotfiles folder):
 
 ```bash
 sudo cp ./sddm/sddm.conf /etc/
-sudo cp -r ./sddm/clairvoyance /etc/usr/shere/sddm/themes
+sudo cp -r ./sddm/clairvoyance /usr/share/sddm/themes
 ```
 
 ```bash
