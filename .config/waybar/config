@@ -1,52 +1,56 @@
 {
-  // Basics
   "layer": "bottom",
-	"position": "top",
-  "margin-top": 5,
-	"margin-right": 5,
-	"margin-left": 5,
-  "height": 36,  // Add this line
+  "position": "top",
+  "height": 38,
 
-  // Modules
   "modules-left": [
-    "cpu",
-    "temperature",
-    "memory",
-    "disk#one"
+    "hyprland/workspaces"
   ],
   "modules-center": [
-    "hyprland/workspaces",
+    "clock"
   ],
   "modules-right": [
+    "temperature",
+    "cpu",
+    "memory",
+    "disk#one",
+    "disk#two",
     "pulseaudio",
     "network",
     "backlight",
-    "battery",
-    "clock"
+    "battery"
   ],
 
-  // Module Config
+  // ── Clock ──
   "clock": {
-    "format": "{:%a %d %b %H:%M}"
+    "format": "{:%a %d %b  %H:%M}",
+    "tooltip-format": "{:%A, %B %d %Y}"
   },
+
+  // ── CPU ──
   "cpu": {
     "states": {
       "good": 0,
-      "warning": 70,	
+      "warning": 70,
       "critical": 90
     },
-    "interval": 1,
-    "format": " {usage:2}%",
+    "interval": 2,
+    "format": "  {usage:2}%",
+    "tooltip-format": "CPU: {usage}%",
     "on-click": "foot -e btop"
   },
+
+  // ── Temperature ──
   "temperature": {
     "thermal-zone": 3,
-    "interval": 1,
+    "interval": 2,
     "hwmon-path": "/sys/class/hwmon/hwmon3/temp1_input",
     "critical-threshold": 80,
-    "format-critical": "({temperatureC}°C)",
-    "format": "({temperatureC}°C)"
+    "format": "  {temperatureC}°C",
+    "format-critical": "  {temperatureC}°C"
   },
+
+  // ── Memory ──
   "memory": {
     "states": {
       "good": 0,
@@ -54,63 +58,73 @@
       "critical": 85
     },
     "interval": 5,
-    "format": "  {}%",
+    "format": "  {}%",
+    "tooltip-format": "Memory: {}% used",
     "on-click": "foot -e btop"
   },
-  "disk#one": {
-		"states": {
-			"good": 0,
-			"warning": 70,
-			"critical": 95
-		},
-		"interval": 5,
-		"format": "  {percentage_used:2}%",
-		"path": "/"
-	},
 
-  "hyprland/workspaces": {
-      "format": "{icon}",
-	"format-icons": {
-		"1": "   ",
-		"2": "   ",
-		"3": "   ",
-		"9": "   ",
-		"4": "   ",
-    "10": "   "
-	},  
-  },
-  "pulseaudio": {
-    "format": "{icon} {volume}%    {format_source}",
-    "format-bluetooth": "{icon} {volume}%  {format_source}",
-    "format-bluetooth-muted": "  {icon}  {format_source}",
-    "format-muted": "  {format_source}",
-    "format-source": "  {volume}%",
-    "format-source-muted": " ",
-    "format-icons": {
-      "headphone": "󰋋 ",
-      "hands-free": " ",
-      "headset": "󰋎 ",
-      "phone": " ",
-      "portable": " ",
-      "car": " ",
-      "default": [
-        "󰕿 ",
-        "󰖀 ",
-        "󰕾 "
-      ]
+  // ── Disk: root ──
+  "disk#one": {
+    "states": {
+      "good": 0,
+      "warning": 70,
+      "critical": 95
     },
-    "on-click": "pavucontrol"
+    "interval": 30,
+    "format": "  {percentage_used:2}%",
+    "tooltip-format": "/  {used} / {total}  ({percentage_used}%)",
+    "path": "/"
   },
+
+  // ── Disk: /data ──
+  "disk#two": {
+    "states": {
+      "good": 0,
+      "warning": 70,
+      "critical": 95
+    },
+    "interval": 30,
+    "format": "  {percentage_used:2}%",
+    "tooltip-format": "/data  {used} / {total}  ({percentage_used}%)",
+    "path": "/data"
+  },
+
+  // ── Workspaces ──
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "9": "",
+      "10": ""
+    }
+  },
+
+  // ── Audio ──
+  "pulseaudio": {
+    "format": "{icon}  {volume}%",
+    "format-bluetooth": "  {volume}%",
+    "format-muted": "  muted",
+    "format-icons": {
+      "default": ["󰕿", "󰖀", "󰕾"]
+    },
+    "on-click": "pavucontrol",
+    "tooltip-format": "{desc}"
+  },
+
+  // ── Network ──
   "network": {
-    "format-wifi": "  {essid} ({signalStrength}%)",
-    "format-ethernet": "   {ifname} {ipaddr}",
-    "format-disconnected": "Disconnected",
-    "tooltip-format": "{ifname}",
-    "tooltip-format-wifi": "{ipaddr}",
-    "tooltip-format-ethernet": "{ipaddr}",
-    "tooltip-format-disconnected": "Disconnected",
+    "format-wifi": "  {signalStrength}%",
+    "format-ethernet": "  up",
+    "format-disconnected": "  off",
+    "tooltip-format-wifi": "{essid}  {ipaddr}",
+    "tooltip-format-ethernet": "{ifname}  {ipaddr}",
     "interval": 30
   },
+
+  // ── Battery ──
   "battery": {
     "states": {
       "good": 100,
@@ -118,24 +132,16 @@
       "critical": 15
     },
     "format": "{icon}  {capacity}%",
-    "format-icons": [
-      " ",
-      " ",
-      " ",
-      " ",
-      " "
-    ]
+    "format-charging": "  {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "{time} remaining"
   },
-   "backlight": {
-    "format": "{icon} {percent}%",
-    "format-icons": [
-      "󰃜",
-      "󰃛",
-      "󰃚"
-    ],
+
+  // ── Backlight ──
+  "backlight": {
+    "format": "{icon}  {percent}%",
+    "format-icons": ["󰃜", "󰃛", "󰃚"],
     "on-scroll-up": "brightnessctl set +5%",
     "on-scroll-down": "brightnessctl set 5%-"
-  },
-  
-
+  }
 }
